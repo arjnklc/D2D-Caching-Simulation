@@ -1,0 +1,21 @@
+
+BASE_STATION_RANGE = 10000  # meters
+MOBILE_RANGE       = 100    # meters
+
+SATELLITE_DISTANCE = 1000000  # meters
+
+TERRAIN_SIZE = 1000  # meters
+
+
+NUMBER_OF_USERS = 100
+NUMBER_OF_CONTENTS = 500
+
+
+MOBILE_CACHE_CAPACITY       = 100       # Megabytes
+BASE_STATION_CACHE_CAPACITY = 10000     # Megabytes
+SATELLITE_CACHE_CAPACITY    = 10000000  # Megabytes
+
+
+MIN_CONTENT_SIZE = 1    # Megabytes
+MAX_CONTENT_SIZE = 100  # Megabytes
+

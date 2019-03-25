@@ -9,13 +9,12 @@ from parameters import *
 class Simulator:
 
     def simulate_LRU(self):
-        print("sa")
 
         terrestrial = terrain.Terrain(TERRAIN_SIZE)
-        print("as")
 
         base_station = device.BaseStation(BASE_STATION_CACHE_CAPACITY, "LRU", BASE_STATION_RANGE)
-        base_station.x, base_station.y = TERRAIN_SIZE / 2  # Located in center of terrain
+        base_station.x = int(TERRAIN_SIZE / 2)
+        base_station.y = int(TERRAIN_SIZE / 2)  # Located in center of terrain
         terrestrial.add_base_station(base_station)
 
         satellite = device.Satellite(SATELLITE_CACHE_CAPACITY, "LRU", SATELLITE_DISTANCE)

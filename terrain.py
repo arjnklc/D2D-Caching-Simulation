@@ -29,9 +29,11 @@ class Terrain:
         self.mobiles.append(mobile)
         self.locate_device(mobile, mobile.x, mobile.y)
 
+    # Euclidean distance between two devices
     def distance_between(self, device1, device2):
         return math.sqrt((device1.x - device2.x) ** 2 + (device1.y - device2.y) ** 2)
 
+    # Return true if the specified content contains in one of the neighbours' cache
     def contains_in_neighbours(self, user, content):
         for m in self.mobiles:
             if self.distance_between(m, user) <= MOBILE_RANGE and m.cache.contains(content):

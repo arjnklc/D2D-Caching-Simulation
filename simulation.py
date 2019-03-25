@@ -8,31 +8,40 @@ from parameters import *
 
 class Simulator:
 
-    def simulate_LRU(self):
-
-        terrestrial = terrain.Terrain(TERRAIN_SIZE)
+    def __init__(self):
+        self.terrestrial = terrain.Terrain(TERRAIN_SIZE)
 
         base_station = device.BaseStation(BASE_STATION_CACHE_CAPACITY, "LRU", BASE_STATION_RANGE)
         base_station.x = int(TERRAIN_SIZE / 2)
         base_station.y = int(TERRAIN_SIZE / 2)  # Located in center of terrain
-        terrestrial.add_base_station(base_station)
+        self.terrestrial.add_base_station(base_station)
 
         satellite = device.Satellite(SATELLITE_CACHE_CAPACITY, "LRU", SATELLITE_DISTANCE)
-        terrestrial.add_satellite(satellite)
+        self.terrestrial.add_satellite(satellite)
 
         for _ in range(NUMBER_OF_USERS):
             new_mobile = device.Mobile(MOBILE_CACHE_CAPACITY, "LRU", MOBILE_RANGE)
             new_mobile.x = random.randint(0, TERRAIN_SIZE)  # x coordinate
             new_mobile.y = random.randint(0, TERRAIN_SIZE)  # y coordinate
-            terrestrial.add_mobile(new_mobile)
+            self.terrestrial.add_mobile(new_mobile)
+
+
+        self.contents = content.generate_random_content(NUMBER_OF_CONTENTS, MIN_CONTENT_SIZE, MAX_CONTENT_SIZE)
 
 
 
-        contents = content.generate_random_content(NUMBER_OF_CONTENTS, MIN_CONTENT_SIZE, MAX_CONTENT_SIZE)
+    def simulate_LRU(self):
 
-        for c in contents:
-            user = random.choice(terrestrial.mobiles)
-            terrestrial.content_request(user, c)
+        self.terrestrial.base_station.algorithm = "LRU"
+        self.terrestrial.satellite.algorithm = "LRU"
+
+        for mobile in self.terrestrial.mobiles:
+            mobile.algorithm = "LRU"
+
+
+        for c in self.contents:
+            user = random.choice(self.terrestrial.mobiles)
+            self.terrestrial.content_request(user, c)
 
 
     def simulate(self):

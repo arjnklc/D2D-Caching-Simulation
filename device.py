@@ -8,7 +8,6 @@ class Device:
 
 
 
-
 class BaseStation(Device):
     def __init__(self, cache_capacity, caching_algorithm, range):
         self.cache = cache.Cache(cache_capacity, caching_algorithm)

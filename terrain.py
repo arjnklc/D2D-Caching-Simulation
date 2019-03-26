@@ -36,18 +36,28 @@ class Terrain:
     # Return true if the specified content contains in one of the neighbours' cache
     def contains_in_neighbours(self, user, content):
         for m in self.mobiles:
-            if self.distance_between(m, user) <= MOBILE_RANGE and m.cache.contains(content):
-                return True
+            if self.distance_between(m, user) <= MOBILE_RANGE:
+                if m.cache.contains(content):
+                    return True
+                else:
+                    m.cache.new_content(content)
+                    return False
 
         return False
+
+    def contains_in_satellite(self, user, content):
+        pass
+
 
     def content_request(self, user, content):
         if user.cache.contains(content):
             print("self hit cache!")
+            user.cache.new_content(content)
         elif self.contains_in_neighbours(user, content):
             print("d2d cache hit")
         elif self.base_station.cache.contains(content):
             print("get from base station cache")
+            self.base_station.cache.new_content(content)
         elif self.satellite.cache.contains(content):
             print("get from satellite cache")
         else:

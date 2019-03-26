@@ -8,7 +8,12 @@ from parameters import *
 
 class Simulator:
 
+
+
     def __init__(self):
+        self.hit_count = 0
+        self.miss_count = 0
+
         self.terrestrial = terrain.Terrain(TERRAIN_SIZE)
 
         base_station = device.BaseStation(BASE_STATION_CACHE_CAPACITY, "LRU", BASE_STATION_RANGE)
@@ -31,6 +36,8 @@ class Simulator:
 
 
     def simulate_LRU(self):
+        self.hit_count = 0
+        self.miss_count = 0
 
         self.terrestrial.base_station.algorithm = "LRU"
         self.terrestrial.satellite.algorithm = "LRU"

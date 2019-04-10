@@ -1,6 +1,5 @@
 import random
 import numpy
-import parameters
 
 class Content:
     def __init__(self, size, unique_id):
@@ -21,9 +20,9 @@ def generate_random_content(count, min_size, max_size):
     return contents
 
 
-def generate_zipf_content(count, size):
+def generate_zipf_content(count, size, zipf_parameter):
     contents = []
-    zipf_dist = numpy.random.zipf(parameters.ZIPF_PARAMETER, count)
+    zipf_dist = numpy.random.zipf(zipf_parameter, count)
     for i in range(count):
         contents.append(Content(size, zipf_dist[i]))
 

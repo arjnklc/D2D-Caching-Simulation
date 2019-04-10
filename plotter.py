@@ -9,10 +9,10 @@ def plot_cache_hits(self_hits, d2d_hits, bs_hits, sat_hits, universal, interval)
     plt.plot(universal)    # get from universal resource
 
 
-    plt.xlabel('number of contents')
-    plt.xlabel('cache hit ratio')
+    plt.xlabel('zipf parameter')
+    plt.ylabel('cache hit ratio')
 
     plt.xticks([0,1,2,3,4], interval)
-    plt.legend(['y = self cache hits', 'y = d2d cache hits', 'y = bs cache hit', 'y = satellite cache hit', 'y = cache miss'], loc='upper left')
+    plt.legend(['self cache hits', 'd2d cache hits', 'bs cache hit', 'satellite cache hit', 'cache miss'], loc='upper right')
 
     plt.show()

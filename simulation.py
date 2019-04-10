@@ -2,6 +2,7 @@ import terrain
 import device
 import content
 import random
+import plotter
 
 from parameters import *
 
@@ -10,6 +11,7 @@ class Simulator:
 
     def __init__(self):
         self.terrestrial = terrain.Terrain(TERRAIN_SIZE)
+        self.num_contents_intervals = [50, 500, 5000, 50000, 500000]
 
         self.place_base_station()
         self.place_satellite()
@@ -38,11 +40,24 @@ class Simulator:
 
 
     def request_contents_randomly(self):
-        for c in self.contents:
+        self_hits = []
+        d2d_hits = []
+        bs_hits = []
+        sat_hits = []
+        universal = []
+        for i in range(len(self.contents)):
             user = random.choice(self.terrestrial.mobiles)
-            #print("user {0} requested {1}".format(user.id, c))
-            self.terrestrial.content_request(user, c)
-            #print("user {0}'s cache: {1}".format(user.id, user.cache.cache))
+            self.terrestrial.content_request(user, self.contents[i])
+
+            if i+1 in self.num_contents_intervals:
+                self_hits.append(self.terrestrial.self_hit / i)
+                d2d_hits.append(self.terrestrial.d2d_hit / i)
+                bs_hits.append(self.terrestrial.bs_hit / i)
+                sat_hits.append(self.terrestrial.sat_hit / i)
+                universal.append(self.terrestrial.miss / i)
+
+        plotter.plot_cache_hits(self_hits, d2d_hits, bs_hits, sat_hits, universal, self.num_contents_intervals)
+
 
 
     def print_cache_stats(self):
@@ -63,6 +78,7 @@ class Simulator:
 
         self.request_contents_randomly()
         self.print_cache_stats()
+
 
     def simulate_MLPLRU(self):
         pass

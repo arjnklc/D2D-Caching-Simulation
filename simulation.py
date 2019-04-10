@@ -107,7 +107,7 @@ class Simulator:
         for mobile in self.terrestrial.mobiles:
             mobile.algorithm = "LRU"
 
-        self.request_contents_randomly_zipf()
+        self.request_contents_randomly()
         self.print_cache_stats()
 
 

@@ -1,6 +1,9 @@
 import random
 import math
+from enum import Enum
+
 from parameters import *
+
 
 
 class Cell:
@@ -13,7 +16,15 @@ class Terrain:
     def __init__(self, size):
         self.size = size
         self.mobiles = []
+        self.self_hit, self.d2d_hit, self.bs_hit, self.sat_hit, self.miss = 0, 0, 0, 0, 0
         self.cells = [[Cell() for _ in range(size)] for _ in range(size)]
+
+    def clear_caches(self):
+        self.self_hit, self.d2d_hit, self.bs_hit, self.sat_hit, self.miss = 0, 0, 0, 0, 0
+        self.satellite.cache.clear()
+        self.base_station.cache.clear()
+        for m in self.mobiles:
+            m.cache.clear()
 
     def locate_device(self, device, x, y):
         self.cells[x][y].devices.append(device)
@@ -38,29 +49,28 @@ class Terrain:
         for m in self.mobiles:
             if self.distance_between(m, user) <= MOBILE_RANGE:
                 if m.cache.contains(content):
-                    return True
-                else:
                     m.cache.new_content(content)
-                    return False
+                    return True
 
         return False
 
-    def contains_in_satellite(self, user, content):
-        pass
 
 
     def content_request(self, user, content):
         if user.cache.contains(content):
-            print("self hit cache!")
-            user.cache.new_content(content)
+            self.self_hit += 1
         elif self.contains_in_neighbours(user, content):
-            print("d2d cache hit")
+            self.d2d_hit += 1
         elif self.base_station.cache.contains(content):
-            print("get from base station cache")
             self.base_station.cache.new_content(content)
+            self.bs_hit += 1
         elif self.satellite.cache.contains(content):
-            print("get from satellite cache")
+            self.satellite.cache.new_content(content)
+            self.sat_hit += 1
         else:
-            print("get from universal source")
+            self.base_station.cache.new_content(content)
+            self.satellite.cache.new_content(content)
+            self.miss += 1
 
-
+        # Cache the new content
+        user.cache.new_content(content)

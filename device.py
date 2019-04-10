@@ -2,9 +2,7 @@ import cache
 
 
 class Device:
-
-    def communicate(self):
-        pass
+    pass
 
 
 
@@ -18,12 +16,14 @@ class BaseStation(Device):
 class Satellite(Device):
     def __init__(self, cache_capacity, caching_algorithm, distance):
         self.cache = cache.Cache(cache_capacity, caching_algorithm)
+        self.distance = distance
 
 
 
 
 class Mobile(Device):
-    def __init__(self, cache_capacity, caching_algorithm, range):
+    def __init__(self, id, cache_capacity, caching_algorithm, range):
+        self.id = id
         self.cache = cache.Cache(cache_capacity, caching_algorithm)
         self.range = range
 

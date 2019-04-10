@@ -19,7 +19,6 @@ class Simulator:
         # Generate content with zipf distribution
         self.contents = content.generate_zipf_content(NUMBER_OF_CONTENTS, CONTENT_SIZE, ZIPF_PARAMETER)
 
-
     def place_base_station(self):
         base_station = device.BaseStation(BASE_STATION_CACHE_CAPACITY, "LRU", BASE_STATION_RANGE)
         base_station.x = int(TERRAIN_SIZE / 2)
@@ -45,12 +44,11 @@ class Simulator:
         print("Number of satellite cache hits:      {}".format(self.terrestrial.sat_hit))
         print("Number of cache miss:                {}".format(self.terrestrial.miss))
 
+    # A random user requests file
     def request_contents_randomly(self):
         for c in self.contents:
             user = random.choice(self.terrestrial.mobiles)
-            #print("user {0} requested {1}".format(user.id, c))
             self.terrestrial.content_request(user, c)
-            #print("user {0}'s cache: {1}".format(user.id, user.cache.cache))
 
 
     def test_for_num_contents(self):
@@ -72,7 +70,7 @@ class Simulator:
                 sat_hits.append(self.terrestrial.sat_hit / i)
                 universal.append(self.terrestrial.miss / i)
 
-        plotter.plot_cache_hits(self_hits, d2d_hits, bs_hits, sat_hits, universal, self.num_contents_intervals)
+        plotter.plot_content_comparison(self_hits, d2d_hits, bs_hits, sat_hits, universal, contents_intervals)
 
 
     def test_for_zipf_parameter(self):
@@ -81,8 +79,8 @@ class Simulator:
         bs_hits = []
         sat_hits = []
         universal = []
-        zipf = [1.2, 1.4, 1.6, 1.8, 2.0]
-        for value in zipf:
+        zipf_values = [1.2, 1.3, 1.4, 1.5, 1.6]
+        for value in zipf_values:
             self.contents = content.generate_zipf_content(NUMBER_OF_CONTENTS, CONTENT_SIZE, value)
             for i in range(len(self.contents)):
                 user = random.choice(self.terrestrial.mobiles)
@@ -95,7 +93,7 @@ class Simulator:
             universal.append(self.terrestrial.miss / len(self.contents))
             self.terrestrial.clear_caches()
 
-        plotter.plot_cache_hits(self_hits, d2d_hits, bs_hits, sat_hits, universal, zipf)
+        plotter.plot_zipf_distribution(self_hits, d2d_hits, bs_hits, sat_hits, universal, zipf_values)
 
 
 

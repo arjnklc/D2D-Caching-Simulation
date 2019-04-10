@@ -9,6 +9,12 @@ class Content:
     def __repr__(self):
         return str(self.unique_id)
 
+    # Override "==" operation
+    def __eq__(self, other):
+        if isinstance(other, Content):
+            return self.unique_id == other.unique_id
+
+        return False
 
 
 def generate_random_content(count, min_size, max_size):

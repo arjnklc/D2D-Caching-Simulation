@@ -1,37 +1,26 @@
 import parameters
 
+
 class Cache:
     def __init__(self, cache_capacity, caching_algorithm):
         self.cache = []
         self.capacity = cache_capacity / parameters.CONTENT_SIZE
         self.algorithm = caching_algorithm
 
-    # Return true if cache contains the content
     def contains(self, content):
-        for item in self.cache:
-            if content.unique_id == item.unique_id:
-                return True
-
-        return False
+        return content in self.cache
 
     def clear(self):
         self.cache = []
 
-    # Return true if cache contains the content
-    def index_of(self, content):
-        for i in range(len(self.cache)):
-            if content.unique_id == self.cache[i].unique_id:
-                return i
-
-        return 0
-
     def is_full(self):
         return self.capacity == len(self.cache)
+
 
     # Uses LRU page replacement algorithm when a new content has came
     def LRU(self, new_content):
         if self.contains(new_content):
-            index = self.index_of(new_content)
+            index = self.cache.index(new_content)
             del self.cache[index]
         if self.is_full():
             del self.cache[-1]  # Remove the last element if cache is full

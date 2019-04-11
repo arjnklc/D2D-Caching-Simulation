@@ -5,7 +5,9 @@ import simulation
 
 def main():
     simulator = simulation.Simulator()
-    simulator.test_for_zipf_parameter()
+    simulator.simulate_LRU()
+    # simulator.test_for_zipf_parameter()
+    # simulator.test_for_num_contents()
 
 
 

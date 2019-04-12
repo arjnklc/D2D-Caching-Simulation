@@ -50,7 +50,6 @@ class Simulator:
             user = random.choice(self.terrestrial.mobiles)
             self.terrestrial.content_request(user, c)
 
-
     def test_for_num_contents(self):
         self_hits = []
         d2d_hits = []

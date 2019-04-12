@@ -12,7 +12,7 @@ def plot_content_comparison(self_hits, d2d_hits, bs_hits, sat_hits, universal, i
     plt.xlabel('Number of contents')
     plt.ylabel('cache hit ratio')
 
-    plt.xticks([0,1,2,3,4], interval)
+    plt.xticks(range(len(interval)), interval)
     plt.legend(['self cache hits', 'd2d cache hits', 'bs cache hit', 'satellite cache hit', 'cache miss'], loc='upper right')
 
     plt.show()
@@ -29,7 +29,7 @@ def plot_zipf_distribution(self_hits, d2d_hits, bs_hits, sat_hits, universal, zi
     plt.xlabel('zipf parameter')
     plt.ylabel('cache hit ratio')
 
-    plt.xticks([0,1,2,3,4], zipf_values)
+    plt.xticks(range(len(zipf_values)), zipf_values)
     plt.legend(['self cache hits', 'd2d cache hits', 'bs cache hit', 'satellite cache hit', 'cache miss'], loc='upper left')
 
     plt.show()

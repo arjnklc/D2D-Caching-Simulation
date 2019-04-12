@@ -44,32 +44,53 @@ class Terrain:
     def distance_between(self, device1, device2):
         return math.sqrt((device1.x - device2.x) ** 2 + (device1.y - device2.y) ** 2)
 
+    def can_communicate(self, device, other_device):
+        return self.distance_between(device, other_device) < max(device.range, other_device.range)
+
     # Return true if the specified content contains in one of the neighbours' cache
     def contains_in_neighbours(self, user, content):
         for m in self.mobiles:
-            if self.distance_between(m, user) <= MOBILE_RANGE:
+            if self.can_communicate(user, m):
                 if m.cache.contains(content):
                     m.cache.new_content(content)
                     return True
 
         return False
 
+    def contains_in_base_station(self, user, content):
+        if self.can_communicate(user, self.base_station):
+            if self.base_station.cache.contains(content):
+                self.base_station.cache.new_content(content)
+                return True
 
+        return False
+
+    def contains_in_satellite(self, content):
+        if self.satellite.cache.contains(content):
+            self.satellite.cache.new_content(content)
+            return True
+
+        return False
 
     def content_request(self, user, content):
         if user.cache.contains(content):
             self.self_hit += 1
+
         elif self.contains_in_neighbours(user, content):
             self.d2d_hit += 1
-        elif self.base_station.cache.contains(content):
-            self.base_station.cache.new_content(content)
+
+        elif self.contains_in_base_station(user, content):
             self.bs_hit += 1
-        elif self.satellite.cache.contains(content):
-            self.satellite.cache.new_content(content)
+
+        elif self.contains_in_satellite(content):
             self.sat_hit += 1
+
         else:
-            self.base_station.cache.new_content(content)
-            self.satellite.cache.new_content(content)
+            if self.can_communicate(user, self.base_station):
+                self.base_station.cache.new_content(content)
+            else:
+                self.satellite.cache.new_content(content)
+
             self.miss += 1
 
         # Cache the new content

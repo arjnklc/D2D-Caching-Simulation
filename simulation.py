@@ -3,6 +3,7 @@ import device
 import content
 import random
 import plotter
+import cache
 
 from parameters import *
 
@@ -98,11 +99,23 @@ class Simulator:
 
     def simulate_LRU(self):
         self.terrestrial.clear_caches()
-        self.terrestrial.base_station.algorithm = "LRU"
-        self.terrestrial.satellite.algorithm = "LRU"
+        self.terrestrial.base_station.set_cache("LRU", BASE_STATION_CACHE_CAPACITY)
+        self.terrestrial.satellite.set_cache("LRU", SATELLITE_CACHE_CAPACITY)
 
         for mobile in self.terrestrial.mobiles:
-            mobile.algorithm = "LRU"
+            mobile.set_cache("LRU", MOBILE_CACHE_CAPACITY)
+
+        self.request_contents_randomly()
+        self.print_cache_stats()
+
+
+    def simulate_Cache_Me_Cache(self):
+        self.terrestrial.clear_caches()
+        self.terrestrial.base_station.set_cache("Cache-Me-Cache", BASE_STATION_CACHE_CAPACITY)
+        self.terrestrial.satellite.set_cache("Cache-Me-Cache", SATELLITE_CACHE_CAPACITY)
+
+        for mobile in self.terrestrial.mobiles:
+            mobile.set_cache("Cache-Me-Cache", MOBILE_CACHE_CAPACITY)
 
         self.request_contents_randomly()
         self.print_cache_stats()
@@ -114,4 +127,4 @@ class Simulator:
     def simulate(self):
         self.simulate_LRU()
         # self.simulate_MLPLRU()
-        # self.simulate_Cache_Me_Cache()
+        self.simulate_Cache_Me_Cache()

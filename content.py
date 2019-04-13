@@ -16,6 +16,9 @@ class Content:
 
         return False
 
+    def __hash__(self):
+        return self.unique_id
+
 
 def generate_random_content(count, min_size, max_size):
     contents = []
@@ -30,6 +33,6 @@ def generate_zipf_content(count, size, zipf_parameter):
     contents = []
     zipf_dist = numpy.random.zipf(zipf_parameter, count)
     for i in range(count):
-        contents.append(Content(size, zipf_dist[i]))
+        contents.append(Content(size, int(zipf_dist[i])))
 
     return contents

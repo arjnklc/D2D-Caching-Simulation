@@ -46,7 +46,28 @@ class LRU_Cache(Cache):
 
 
 class MLPLRU_Cache(Cache):
+    def __init__(self, cache_capacity):
+        self.capacity = cache_capacity / parameters.CONTENT_SIZE
+        self.capacity_for_each_level = self.capacity / 3
+        self.lvl1, self.lvl2, self.lvl3 = [], [], []
+
+        self.threshold = 2  # Xi
+
+
+
+    def contains(self, content):
+        return content in self.cache.keys()
+
+    def clear(self):
+        self.cache = {}
+
+    def is_full(self):
+        return self.capacity == len(self.cache)
+
+
+
     def new_content(self, new_content):
+
         pass
 
 
@@ -54,13 +75,14 @@ class Cache_Me_Cache(Cache):
     def __init__(self, cache_capacity):
         self.cache = {}     # Dictionary: content -> score
         self.capacity = cache_capacity / parameters.CONTENT_SIZE
-        self.threshold = 0  # ????
         self.score_decrease = 1
 
         self.score_increase = self.capacity
+        self.threshold = 0.1 * self.capacity  # ????
+
 
     def contains(self, content):
-        return content in self.cache
+        return content in self.cache.keys()
 
     def clear(self):
         self.cache = {}
@@ -69,12 +91,13 @@ class Cache_Me_Cache(Cache):
         return self.capacity == len(self.cache)
 
     def delete_content_if_possible(self):
-        for content, score in self.cache:
+        for content, score in self.cache.items():
             if score < self.threshold:
                 del self.cache[content]
+                return
 
     def decrease_all_scores(self, num):
-        for content, _ in self.cache:
+        for content, score in self.cache.items():
             self.cache[content] -= num
 
     def new_content(self, new_content):
@@ -90,8 +113,6 @@ class Cache_Me_Cache(Cache):
             # Mümkünse en az popüler contenti sil ve sildiysen yeni contenti ekle
             if not self.is_full():
                 self.cache[new_content] = self.score_increase
-
-
 
 
 

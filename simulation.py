@@ -99,11 +99,11 @@ class Simulator:
 
     def simulate_LRU(self):
         self.terrestrial.clear_caches()
-        self.terrestrial.base_station.set_cache("LRU", BASE_STATION_CACHE_CAPACITY)
-        self.terrestrial.satellite.set_cache("LRU", SATELLITE_CACHE_CAPACITY)
+        self.terrestrial.base_station.set_cache(BASE_STATION_CACHE_CAPACITY, "LRU")
+        self.terrestrial.satellite.set_cache(SATELLITE_CACHE_CAPACITY, "LRU")
 
         for mobile in self.terrestrial.mobiles:
-            mobile.set_cache("LRU", MOBILE_CACHE_CAPACITY)
+            mobile.set_cache(MOBILE_CACHE_CAPACITY, "LRU")
 
         self.request_contents_randomly()
         self.print_cache_stats()
@@ -111,11 +111,11 @@ class Simulator:
 
     def simulate_Cache_Me_Cache(self):
         self.terrestrial.clear_caches()
-        self.terrestrial.base_station.set_cache("Cache-Me-Cache", BASE_STATION_CACHE_CAPACITY)
-        self.terrestrial.satellite.set_cache("Cache-Me-Cache", SATELLITE_CACHE_CAPACITY)
+        self.terrestrial.base_station.set_cache(BASE_STATION_CACHE_CAPACITY, "Cache-Me-Cache")
+        self.terrestrial.satellite.set_cache(SATELLITE_CACHE_CAPACITY, "Cache-Me-Cache")
 
         for mobile in self.terrestrial.mobiles:
-            mobile.set_cache("Cache-Me-Cache", MOBILE_CACHE_CAPACITY)
+            mobile.set_cache(MOBILE_CACHE_CAPACITY, "Cache-Me-Cache")
 
         self.request_contents_randomly()
         self.print_cache_stats()

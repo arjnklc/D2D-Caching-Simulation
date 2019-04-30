@@ -1,6 +1,7 @@
 import random
 import numpy
 
+
 class Content:
     def __init__(self, size, unique_id):
         self.size = size

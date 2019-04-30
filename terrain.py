@@ -1,9 +1,4 @@
-import random
 import math
-from enum import Enum
-
-from parameters import *
-
 
 
 class Cell:

@@ -1,35 +1,34 @@
 import matplotlib.pyplot as plt
 
 
-def plot_content_comparison(self_hits, d2d_hits, bs_hits, sat_hits, universal, interval):
-    plt.plot(self_hits)     # self cache hit
-    plt.plot(d2d_hits)    # d2d cache hit
-    plt.plot(bs_hits)    # base station cache hit
-    plt.plot(sat_hits)    # satellite cache hit
-    plt.plot(universal)    # get from universal resource
+def ploty(lru, mlplru, cache_me_cache, values, xlabel, ylabel):
+    plt.plot(lru)
+    plt.plot(mlplru)
+    plt.plot(cache_me_cache)
 
+    plt.xticks(range(len(values)), values)
 
-    plt.xlabel('Number of contents')
-    plt.ylabel('cache hit ratio')
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
 
-    plt.xticks(range(len(interval)), interval)
-    plt.legend(['self cache hits', 'd2d cache hits', 'bs cache hit', 'satellite cache hit', 'cache miss'], loc='upper right')
-
+    plt.legend(['LRU', 'MLPLRU', 'Cache-me-Cache'], loc='best')
+    plt.grid()
     plt.show()
 
 
-def plot_zipf_distribution(self_hits, d2d_hits, bs_hits, sat_hits, universal, zipf_values):
-    plt.plot(self_hits)     # self cache hit
-    plt.plot(d2d_hits)    # d2d cache hit
-    plt.plot(bs_hits)    # base station cache hit
-    plt.plot(sat_hits)    # satellite cache hit
-    plt.plot(universal)    # get from universal resource
+def plot_content_comparison(lru_results, mlplru_results, cache_me_cache_results, num_contents):
+
+    ploty(lru_results[0], mlplru_results[0], cache_me_cache_results[0], num_contents, "number of contents", "self hit ratio")  # self cache hits
+    ploty(lru_results[1], mlplru_results[1], cache_me_cache_results[1], num_contents, "number of contents", "d2d hit ratio")  # d2d cache hits
+    ploty(lru_results[2], mlplru_results[2], cache_me_cache_results[2], num_contents, "number of contents", "base station hit ratio")  # bs cache hit
+    ploty(lru_results[3], mlplru_results[3], cache_me_cache_results[3], num_contents, "number of contents", "satellite hit ratio")  # sat cache hits
+    ploty(lru_results[4], mlplru_results[4], cache_me_cache_results[4], num_contents, "number of contents", "miss count")  # cache misses
 
 
-    plt.xlabel('zipf parameter')
-    plt.ylabel('cache hit ratio')
+def plot_zipf_distribution(lru_results, mlplru_results, cache_me_cache_results, zipf_values):
 
-    plt.xticks(range(len(zipf_values)), zipf_values)
-    plt.legend(['self cache hits', 'd2d cache hits', 'bs cache hit', 'satellite cache hit', 'cache miss'], loc='upper left')
-
-    plt.show()
+    ploty(lru_results[0], mlplru_results[0], cache_me_cache_results[0], zipf_values, "zipf parameter", "self hit ratio")  # self cache hits
+    ploty(lru_results[1], mlplru_results[1], cache_me_cache_results[1], zipf_values, "zipf parameter", "d2d hit ratio")  # d2d cache hits
+    ploty(lru_results[2], mlplru_results[2], cache_me_cache_results[2], zipf_values, "zipf parameter", "base station hit ratio")  # bs cache hits
+    ploty(lru_results[3], mlplru_results[3], cache_me_cache_results[3], zipf_values, "zipf parameter", "satellite hit ratio")  # sat cache hits
+    ploty(lru_results[4], mlplru_results[4], cache_me_cache_results[4], zipf_values, "zipf parameter", "miss count")  # cache miss

@@ -18,23 +18,16 @@ class BaseStation(Device):
         self.set_cache(cache_capacity, caching_algorithm)
 
 
-
 class Satellite(Device):
-
 
     def __init__(self, cache_capacity, caching_algorithm, distance):
         self.distance = distance
         self.set_cache(cache_capacity, caching_algorithm)
 
 
-
-
 class Mobile(Device):
-
 
     def __init__(self, id, cache_capacity, caching_algorithm, range):
         self.id = id
         self.range = range
         self.set_cache(cache_capacity, caching_algorithm)
-
-

@@ -2,6 +2,6 @@
 Hybrid network simulation with base station and satellite. It enables comparing D2D caching algorithms.
 
 # Usage
-pip3 install requirements.txt
+pip3 install -R requirements.txt
 
 ./main.py
